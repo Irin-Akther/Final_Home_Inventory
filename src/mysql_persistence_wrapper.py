@@ -50,13 +50,32 @@ class MySQLPersistenceWrapper(PersistenceWrapperInterface):
 
 	def create_inventory(self, name: str, description: str, date: str):
 		"""Insert new row into inventories table."""
-		pass
+		try:
+			cursor = self._db_connection.cursor()
+			cursor.execute(
+				"INSERT INTO inventories (name, description, date) VALUES (%s, %s, %s)",
+                (name, description, date),
+			)
+			self._db_connection.commit()
+			return cursor.lastrowid
+		except Exception as e:
+			print(f"Exception in create inevntory: {e}")
+			return None
 
 
 	def create_item(self, inventory_id: int, item: str, count: int):
 		"""Insert new row into items table for given inventory id"""
-		pass
-		
+		try:
+			cursor = self._db_connection.cursor()
+			cursor.execute(
+                "INSERT INTO items (inventory_id, item, count) VALUES (%s, %s, %s)",
+                (inventory_id, item, count),
+            )
+			self._db_connection.commit()
+			return cursor.lastrowid
+		except Exception as e:
+			print(f"Exception in create_item: {e}")
+			return None
 		
 	def _initialize_database_connection(self, config):
 		"""Initializes and returns database connection pool."""
