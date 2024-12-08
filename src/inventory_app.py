@@ -33,7 +33,7 @@ class InventoryApp():
 		"""Display menu."""
 		print('\t\t\tHousehold Inventory Application')
 		print()
-		print('\t\t1. New Inventory (Not Implemented)')
+		print('\t\t1. New Inventory (Implemented)')
 		print('\t\t2. List Inventories')
 		print('\t\t3. Select Inventory')
 		print('\t\t4. List Inventory Items')
@@ -65,14 +65,25 @@ class InventoryApp():
 			case _:
 				print('Invalid Menu Choice!')
 
-	def new_inventory(self):
-		"""Create new inventory."""		
-		self.clear_screen()
-		if __debug__:
-			print('new_inventory() method called...')
-		input('\n\nThis method is not yet implemented. Press any key to continue: ')
-		
 
+	def new_inevtory(self):
+		"""Create new inventory."""
+		self.clear_screen()
+		print("Add Items")
+		try:
+			name = input ("Enter new inventory name: ")
+			description = input ("Enter Inventory Description: ")
+			date = input ("Enter date (YYYY-MM-DD): ")
+			inventory_id = self.business_logic.create_new_inventory(name, description, date)
+			if inventory_id:
+				print(f"New inventory created with ID: {inventory_id}")
+			else:
+				print("Failed to create inventory.")
+		except Exception as e:
+			print(f"Error creating inventory: {e}")
+		input("\n\nPress any key to continue...")
+
+#previous codes
 	def list_inventories(self):
 		"""List inventories."""
 		self.clear_screen()
@@ -106,12 +117,6 @@ class InventoryApp():
 					keep_going = False
 		except Exception as e:
 			print(f'Exception in select_inventory() method: {e}')
-			
-		
-
-		
-		
-		
 
 
 	def list_inventory_items(self):
@@ -126,9 +131,23 @@ class InventoryApp():
 
 	def add_items(self):
 		"""Add items to inventory."""
-		if __debug__:
-			print('add_items() method called...')
-		input('\n\vThis method is not yet implemented. Press any key to continue: ')
+		self.clear_screen()
+		print("Add Items")
+		try:
+			if self.active_inventory_id == 0:
+				print("No active inventory selected. Please select an inventory first.")
+				input("\n\nPress any key to continue...")
+				return
+			item_name = input("Enter item name: ")
+			item_count = int(input("Enter item count: "))
+			item_id = self.business_logic.add_item(self.active_inventory_id, item_name, item_count)
+			if item_id:
+				print(f"Item added successfully with ID: {item_id}")
+			else:
+				print("Failed to add item.")
+		except Exception as e:
+			print(f"Error adding item: {e}")
+		input("\n\nPress any key to continue...")
 
 
 	def start_application(self):
