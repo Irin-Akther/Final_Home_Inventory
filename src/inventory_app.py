@@ -66,7 +66,7 @@ class InventoryApp():
 				print('Invalid Menu Choice!')
 
 
-	def new_inevtory(self):
+	def new_inventory(self):
 		"""Create new inventory."""
 		self.clear_screen()
 		print("Add Items")
@@ -170,8 +170,5 @@ class InventoryApp():
 			t.add_row([row[0], row[1], row[2], row[3]])
 		print(t)
 
-
-
-		
 
 
